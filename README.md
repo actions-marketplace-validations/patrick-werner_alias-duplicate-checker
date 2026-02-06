@@ -1,4 +1,4 @@
-# FSH Alias Validator Action
+# FSH Alias Duplicate Check Action
 
 ![CI](https://github.com/patrick-werner/alias-duplicate-checker/actions/workflows/ci.yml/badge.svg)
 ![Release](https://img.shields.io/github/v/release/patrick-werner/alias-duplicate-checker?sort=semver)
