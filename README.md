@@ -10,6 +10,7 @@ Validate FSH alias consistency across all `.fsh` files under a directory (recurs
 
 ## What it checks
 - Alias name duplicates that map to different URLs.
+- Duplicate alias definitions (same alias and URL).
 - URL duplicates mapped by different alias names.
 - Protocol mismatches (`http` vs `https`) for otherwise identical URLs.
 

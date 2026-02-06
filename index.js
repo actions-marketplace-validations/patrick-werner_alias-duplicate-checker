@@ -96,15 +96,29 @@ async function runWithCore(coreModule) {
 
         definitions.push(definition);
 
-        const existingByName = nameMap.get(definition.name);
-        if (existingByName && existingByName.url !== definition.url) {
+        let urlsForName = nameMap.get(definition.name);
+        if (!urlsForName) {
+          urlsForName = new Map();
+          nameMap.set(definition.name, urlsForName);
+        }
+
+        if (urlsForName.has(definition.url)) {
+          const existingSame = urlsForName.get(definition.url);
+          errors.push(
+            `Alias duplicate: ${definition.name} = ${definition.url} at ${formatLocation(
+              definition,
+            )}, already defined at ${formatLocation(existingSame)}`,
+          );
+        } else if (urlsForName.size > 0) {
+          const [existingUrl, existingDef] = urlsForName.entries().next().value;
           errors.push(
             `Alias name duplicate: ${definition.name} maps to ${definition.url} at ${formatLocation(
               definition,
-            )}, but ${existingByName.url} at ${formatLocation(existingByName)}`,
+            )}, but ${existingUrl} at ${formatLocation(existingDef)}`,
           );
-        } else if (!existingByName) {
-          nameMap.set(definition.name, definition);
+          urlsForName.set(definition.url, definition);
+        } else {
+          urlsForName.set(definition.url, definition);
         }
 
         const existingByUrl = urlMap.get(definition.url);

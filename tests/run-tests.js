@@ -75,6 +75,15 @@ async function testDuplicateUrl() {
   assert.ok(message.includes("tests/fixtures/duplicate-url/aliases-a.fsh:1"));
 }
 
+async function testDuplicateIdentical() {
+  const stub = await runCase("duplicate-identical");
+  const message = stub.getFailedMessage();
+  assert.ok(message);
+  assert.ok(message.includes("Alias duplicate"));
+  assert.ok(message.includes("tests/fixtures/duplicate-identical/subdir/aliases-b.fsh:1"));
+  assert.ok(message.includes("tests/fixtures/duplicate-identical/aliases-a.fsh:1"));
+}
+
 async function testProtocolMismatch() {
   const stub = await runCase("protocol-mismatch");
   const message = stub.getFailedMessage();
@@ -88,6 +97,7 @@ async function runAll() {
   await testOk();
   await testDuplicateName();
   await testDuplicateUrl();
+  await testDuplicateIdentical();
   await testProtocolMismatch();
 }
 
